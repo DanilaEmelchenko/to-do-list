@@ -93,7 +93,7 @@ function App() {
   return (
     <Paper sx={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={users}
+        rows={users || []}
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10]}
