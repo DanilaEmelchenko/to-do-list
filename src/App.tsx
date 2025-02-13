@@ -73,13 +73,19 @@ const columns: GridColDef[] = [
 
 const paginationModel = { page: 0, pageSize: 5 };
 
+const instance = axios.create({
+  baseURL: "https://jsonplaceholder.typicode.com",
+  timeout: 1000,
+  headers: { "X-Custom-Header": "foobar" },
+});
+
 function App() {
   const [users, setUsers] = useState<IUser[] | null>(null);
   console.log(users);
 
   useEffect(() => {
-    axios
-      .get<IUserResponse[]>("https://jsonplaceholder.typicode.com/users")
+    instance
+      .get<IUserResponse[]>("/users")
       .then((response) => {
         const users = getUsers(response.data);
         setUsers(users);
