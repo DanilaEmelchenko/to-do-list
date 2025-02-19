@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -26,19 +26,14 @@ const paginationModel = { page: 0, pageSize: 10 };
 
 function App() {
   const dispatch = useAppDispatch();
-  const { users, loading } = useAppSelector((state) => state.usersReducer);
-  const [isLoading, setIsLoading] = useState(true);
+  const { users, loading } = useAppSelector((state) => state.users);
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchUsers());
-    
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
   }, []);
 
-  if (loading || isLoading) return <h1>Загрузка...</h1>;
+  if (loading) return <h1>Загрузка...</h1>;
 
   const navigatePosts = (params: GridRowParams) => {
     const userId = params.row.id;
