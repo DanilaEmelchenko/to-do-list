@@ -1,6 +1,6 @@
 import { instance } from "../config/instance";
 
-export interface IPosts {
+export interface IPostsResponse {
   userId: string;
   id: number;
   title: string;
@@ -8,8 +8,10 @@ export interface IPosts {
 }
 
 export class Posts {
-  static async fetchPosts(userId: number): Promise<IPosts[]> {
-    const response = await instance.get<IPosts[]>(`/posts?userId=${userId}`);
+  static async fetchPosts(userId: number): Promise<IPostsResponse[]> {
+    const response = await instance.get<IPostsResponse[]>(
+      `/posts?userId=${userId}`
+    );
 
     return response.data;
   }
