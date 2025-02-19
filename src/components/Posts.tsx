@@ -1,23 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { fetchPosts } from "../store/postsSlice/postsSlice";
 import { useParams } from "react-router";
 
 const Posts = () => {
   const dispatch = useAppDispatch();
-  const { posts, loading, err } = useAppSelector((state) => state.postsReducer);
-  const [isLoading, setIsLoading] = useState(true);
+  const { posts, loading, err } = useAppSelector((state) => state.posts);
   const { userId } = useParams();
   const conversionToNumber = Number(userId);
 
   useEffect(() => {
     dispatch(fetchPosts(conversionToNumber));
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
   }, []);
 
-  if (loading || isLoading) return <h1>Загрузка...</h1>;
+  if (loading) return <h1>Загрузка...</h1>;
   if (err) return <h1>Ошибка</h1>;
 
   return (
