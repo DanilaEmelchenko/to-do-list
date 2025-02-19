@@ -11,7 +11,7 @@ if (container) {
   const root = createRoot(container);
 
   root.render(
-    <BrowserRouter>
+    <BrowserRouter basename="/react-users">
       <Provider store={store}>
         <ScopedCssBaseline>
           <AppRouter />
