@@ -1,12 +1,15 @@
 import { getUsers } from "./getUsers";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IUser } from "./interfaces";
-import { User } from "../../services/user";
+import { IUserResponse, User } from "../../services/user";
 
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const response = await User.fetchUsers();
-  return response;
-});
+export const fetchUsers = createAsyncThunk<IUserResponse[], void>(
+  "users/fetchUsers",
+  async () => {
+    const response = await User.fetchUsers();
+    return response;
+  }
+);
 
 interface IUsersState {
   users: IUser[];
@@ -23,8 +26,7 @@ const initialState = {
 const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchUsers.pending, (state) => {
@@ -36,7 +38,7 @@ const usersSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state) => {
         state.loading = false;
-        state.err = "Ошибка загрузки";
+        state.err = "Ошибка загрузки пользователей";
       });
   },
 });
