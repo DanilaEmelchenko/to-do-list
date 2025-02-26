@@ -1,9 +1,17 @@
 import { createRoot } from "react-dom/client";
-import ScopedCssBaseline from "@mui/material/ScopedCssBaseline";
+import "./styles/fonts.css";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
 import { BrowserRouter } from "react-router";
-import AppRouter from "./components/AppRouter.tsx";
+import AppRouter from "./routers/AppRouter.tsx";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 const container = document.getElementById("root");
 
@@ -13,9 +21,10 @@ if (container) {
   root.render(
     <BrowserRouter basename="/react-users">
       <Provider store={store}>
-        <ScopedCssBaseline>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
           <AppRouter />
-        </ScopedCssBaseline>
+        </ThemeProvider>
       </Provider>
     </BrowserRouter>
   );
