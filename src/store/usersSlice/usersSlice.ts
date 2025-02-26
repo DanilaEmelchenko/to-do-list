@@ -1,5 +1,5 @@
 import { getUsers } from "./getUsers";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "./interfaces";
 import { IUserResponse, User } from "../../services/user";
 
@@ -32,10 +32,13 @@ const usersSlice = createSlice({
       .addCase(fetchUsers.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.users = getUsers(action.payload);
-        state.loading = false;
-      })
+      .addCase(
+        fetchUsers.fulfilled,
+        (state, action: PayloadAction<IUserResponse[]>) => {
+          state.users = getUsers(action.payload);
+          state.loading = false;
+        }
+      )
       .addCase(fetchUsers.rejected, (state) => {
         state.loading = false;
         state.err = "Ошибка загрузки пользователей";
