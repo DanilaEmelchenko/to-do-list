@@ -14,13 +14,13 @@ export const fetchPosts = createAsyncThunk<IPostsResponse[], number>(
   }
 );
 
-export const creatingPost = createAsyncThunk<ICreatePostResponse, ICreatePostArgs>(
-  "posts/creatingPost",
-  async (args: ICreatePostArgs) => {
-    const response = await Posts.creatingPost(args);
-    return response;
-  }
-);
+export const creatingPost = createAsyncThunk<
+  ICreatePostResponse,
+  ICreatePostArgs
+>("posts/creatingPost", async (args: ICreatePostArgs) => {
+  const response = await Posts.creatingPost(args);
+  return response;
+});
 
 interface IPostsState {
   posts: IPostsResponse[];
