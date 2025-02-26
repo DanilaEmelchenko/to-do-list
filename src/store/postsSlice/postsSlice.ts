@@ -1,10 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IPostsResponse, Posts } from "../../services/posts";
+import {
+  ICreatePostArgs,
+  IPostsResponse,
+  Posts,
+  ICreatePostResponse,
+} from "../../services/posts";
 
-export const fetchPosts = createAsyncThunk(
+export const fetchPosts = createAsyncThunk<IPostsResponse[], number>(
   "posts/fetchPosts",
   async (userId: number) => {
     const response = await Posts.fetchPosts(userId);
+    return response;
+  }
+);
+
+export const creatingPost = createAsyncThunk<ICreatePostResponse, ICreatePostArgs>(
+  "posts/creatingPost",
+  async (args: ICreatePostArgs) => {
+    const response = await Posts.creatingPost(args);
     return response;
   }
 );
@@ -37,6 +50,17 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.rejected, (state) => {
         state.loading = false;
         state.err = "Ошибка загрузки постов";
+      })
+      .addCase(creatingPost.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(creatingPost.fulfilled, (state, action) => {
+        state.posts.push(action.payload);
+        state.loading = false;
+      })
+      .addCase(creatingPost.rejected, (state) => {
+        state.loading = false;
+        state.err = "Ошибка создание поста";
       });
   },
 });
