@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ICreatePostArgs,
   IPostsResponse,
@@ -43,10 +43,13 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.posts = action.payload;
-        state.loading = false;
-      })
+      .addCase(
+        fetchPosts.fulfilled,
+        (state, action: PayloadAction<IPostsResponse[]>) => {
+          state.posts = action.payload;
+          state.loading = false;
+        }
+      )
       .addCase(fetchPosts.rejected, (state) => {
         state.loading = false;
         state.err = "Ошибка загрузки постов";
@@ -54,10 +57,13 @@ const postsSlice = createSlice({
       .addCase(creatingPost.pending, (state) => {
         state.loading = true;
       })
-      .addCase(creatingPost.fulfilled, (state, action) => {
-        state.posts.push(action.payload);
-        state.loading = false;
-      })
+      .addCase(
+        creatingPost.fulfilled,
+        (state, action: PayloadAction<ICreatePostResponse>) => {
+          state.posts.push(action.payload);
+          state.loading = false;
+        }
+      )
       .addCase(creatingPost.rejected, (state) => {
         state.loading = false;
         state.err = "Ошибка создание поста";
