@@ -9,10 +9,12 @@ import { useAppDispatch, useAppSelector } from "../store/store";
 import { fetchPosts } from "../store/postsSlice/postsSlice";
 import Loading from "../components/Loading/Loading";
 import FormCreateNewPost from "../components/FormCreateNewPost/FormCreateNewPost";
+import { selectLoadingPosts, selectPostsData } from "../store/selectors/postsSelectors";
 
 const Posts = () => {
   const dispatch = useAppDispatch();
-  const { posts, loading, err } = useAppSelector((state) => state.posts);
+  const posts = useAppSelector(selectPostsData);
+  const loading = useAppSelector(selectLoadingPosts)
   const { userId } = useParams();
 
   useEffect(() => {
@@ -20,7 +22,6 @@ const Posts = () => {
   }, []);
 
   if (loading) return <Loading />;
-  if (err) return <h1>{err}</h1>;
 
   return (
     <>

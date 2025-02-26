@@ -7,6 +7,10 @@ import { fetchUsers } from "../store/usersSlice/usersSlice";
 import Loading from "../components/Loading/Loading";
 import { getColumns } from "../helper/getColumns";
 import { getPaginationModel } from "../helper/getPaginationModel";
+import {
+  selectLoadingUsers,
+  selectUsersData,
+} from "../store/selectors/usersSelectors";
 
 // interface IApiResponse<T> {
 //   data: T;
@@ -16,7 +20,8 @@ import { getPaginationModel } from "../helper/getPaginationModel";
 
 const Users = () => {
   const dispatch = useAppDispatch();
-  const { users, loading } = useAppSelector((state) => state.users);
+  const users = useAppSelector(selectUsersData);
+  const loading = useAppSelector(selectLoadingUsers);
   const navigate = useNavigate();
 
   useEffect(() => {
