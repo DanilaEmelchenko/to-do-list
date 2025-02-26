@@ -1,7 +1,7 @@
 import { instance } from "../config/instance";
 
 export interface IPostsResponse {
-  userId: string;
+  userId: number;
   id: number;
   title: string;
   body: string;
