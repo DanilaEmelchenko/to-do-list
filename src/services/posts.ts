@@ -1,24 +1,11 @@
 import { instance } from "../config/instance";
-
-export interface IPostsResponse {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
-
-export interface ICreatePostArgs {
-  title: string;
-  body: string;
-  userId: number;
-}
-
-export interface ICreatePostResponse {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-}
+import {
+  IPostsResponse,
+  ICreatePostArgs,
+  ICreatePostResponse,
+  IEditPostResponse,
+  IEditPostArgs,
+} from "./interfaces";
 
 export class Posts {
   static async fetchPosts(userId: number): Promise<IPostsResponse[]> {
@@ -36,4 +23,27 @@ export class Posts {
 
     return response.data;
   }
+
+  static async editPost(args: IEditPostArgs): Promise<IEditPostResponse> {
+    const response = await instance.put<IEditPostResponse>(
+      `/posts/${args.id}`,
+      args
+    );
+
+    return response.data;
+  }
+
+  static async deletePost(id: number): Promise<number> {
+    await instance.delete(`/posts/${id}`);
+
+    return id;
+  }
 }
+
+export type {
+  ICreatePostArgs,
+  IPostsResponse,
+  ICreatePostResponse,
+  IEditPostArgs,
+  IEditPostResponse,
+};
