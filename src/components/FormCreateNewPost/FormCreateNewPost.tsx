@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 import s from "./FormCreateNewPost.module.css";
+import { Button } from "@mui/material";
 import { useAppDispatch } from "../../store/store";
 import { creatingPost } from "../../store/postsSlice/postsSlice";
 
@@ -51,9 +52,9 @@ const FormCreateNewPost = () => {
           required
         ></textarea>
 
-        <button className={s["form-button"]} type="submit">
+        <Button variant="contained" type="submit">
           Создать новый пост
-        </button>
+        </Button>
       </div>
     </form>
   );
