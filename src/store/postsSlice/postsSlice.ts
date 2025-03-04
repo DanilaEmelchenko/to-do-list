@@ -4,6 +4,8 @@ import {
   IPostsResponse,
   Posts,
   ICreatePostResponse,
+  IEditPostArgs,
+  IEditPostResponse,
 } from "../../services/posts";
 
 export const fetchPosts = createAsyncThunk<IPostsResponse[], number>(
@@ -21,6 +23,22 @@ export const creatingPost = createAsyncThunk<
   const response = await Posts.creatingPost(args);
   return response;
 });
+
+export const editPost = createAsyncThunk<IEditPostResponse, IEditPostArgs>(
+  "posts/editPost",
+  async (args: IEditPostArgs) => {
+    const response = await Posts.editPost(args);
+    return response;
+  }
+);
+
+export const deletePost = createAsyncThunk<number, number>(
+  "posts/deletePost",
+  async (id: number) => {
+    await Posts.deletePost(id);
+    return id;
+  }
+);
 
 interface IPostsState {
   posts: IPostsResponse[];
@@ -67,6 +85,25 @@ const postsSlice = createSlice({
       .addCase(creatingPost.rejected, (state) => {
         state.loading = false;
         state.err = "Ошибка создание поста";
+      })
+      .addCase(editPost.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        editPost.fulfilled,
+        (state, action: PayloadAction<IEditPostResponse>) => {
+          state.posts = state.posts.map((post) =>
+            post.id === action.payload.id ? action.payload : post
+          );
+          state.loading = false;
+        }
+      )
+      .addCase(editPost.rejected, (state) => {
+        state.loading = false;
+        state.err = "Ошибка редактирование поста";
+      })
+      .addCase(deletePost.fulfilled, (state, action: PayloadAction<number>) => {
+        state.posts = state.posts.filter((post) => post.id !== action.payload);
       });
   },
 });
