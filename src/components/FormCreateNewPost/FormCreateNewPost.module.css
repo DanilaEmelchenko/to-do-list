@@ -29,20 +29,3 @@
   border: none;
   outline: none;
 }
-
-.form-button {
-  padding: 10px;
-  border-radius: 10px;
-  border-color: #3498db;
-  color: lightblue;
-  box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;
-  transition: all 150ms ease-in-out;
-  font-size: 18px;
-  cursor: pointer;
-  border: none;
-  outline: none;
-}
-
-.form-button:hover {
-  box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db;
-}
