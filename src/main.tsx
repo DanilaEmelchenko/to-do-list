@@ -4,7 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
-import { BrowserRouter } from "react-router";
+import { HashRouter } from "react-router";
 import AppRouter from "./routers/AppRouter.tsx";
 
 const darkTheme = createTheme({
@@ -19,14 +19,14 @@ if (container) {
   const root = createRoot(container);
 
   root.render(
-    <BrowserRouter basename="/react-users">
+    <HashRouter>
       <Provider store={store}>
         <ThemeProvider theme={darkTheme}>
           <CssBaseline />
           <AppRouter />
         </ThemeProvider>
       </Provider>
-    </BrowserRouter>
+    </HashRouter>
   );
 } else {
   throw new Error(
