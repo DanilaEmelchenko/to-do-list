@@ -1,7 +1,7 @@
 import { getUsers } from "./getUsers";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "./interfaces";
-import { IUserResponse, User } from "../../services/user";
+import { IUserResponse, User } from "../../services/users";
 
 export const fetchUsers = createAsyncThunk<IUserResponse[], void>(
   "users/fetchUsers",

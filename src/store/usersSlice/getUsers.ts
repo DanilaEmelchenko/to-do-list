@@ -1,4 +1,4 @@
-import { IUserResponse } from "../../services/user";
+import { IUserResponse } from "../../services/users";
 import { IUser } from "./interfaces";
 
 export const getUsers = (data: IUserResponse[]): IUser[] => {
