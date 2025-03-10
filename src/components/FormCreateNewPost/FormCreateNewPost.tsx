@@ -1,17 +1,20 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useParams } from "react-router";
 import s from "./FormCreateNewPost.module.css";
 import { Button } from "@mui/material";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { creatingPost } from "../../store/postsSlice/postsSlice";
+import { selectLoadingForCreatingPost } from "../../store/postsSlice/selectors/postsSelectors";
+import LoadingForCreateNewPost from "./shared/LoadingForCreateNewPost/LoadingForCreateNewPost";
 
 const FormCreateNewPost = () => {
   const [newTitlePost, setTitleNewPost] = useState("");
   const [newMessageForPost, setNewMessageForPost] = useState("");
+  const loading = useAppSelector(selectLoadingForCreatingPost);
   const dispatch = useAppDispatch();
-  const { userId } = useParams();
+  const { userId } = useParams<string>();
 
-  const submitNewPost = (e: { preventDefault: () => void }) => {
+  const submitNewPost = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     dispatch(
       creatingPost({
@@ -23,6 +26,8 @@ const FormCreateNewPost = () => {
     setTitleNewPost("");
     setNewMessageForPost("");
   };
+
+  if (loading) return <LoadingForCreateNewPost />;
 
   return (
     <form className={s["form-container"]} onSubmit={submitNewPost}>
