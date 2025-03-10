@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router";
-import Users from "../pages/Users";
-import Posts from "../pages/Posts";
+import Users from "../pages/Users/Users";
+import Posts from "../pages/Posts/Posts";
 
-enum Routers {
-  Posts = "/posts/:userId",
+enum Path {
+  Posts = "/posts",
 }
 
 const AppRouter = () => {
@@ -11,7 +11,7 @@ const AppRouter = () => {
     <div>
       <Routes>
         <Route path="/" element={<Users />} />
-        <Route path={Routers.Posts} element={<Posts />} />
+        <Route path={`${Path.Posts}/:userId`} element={<Posts />} />
       </Routes>
     </div>
   );
