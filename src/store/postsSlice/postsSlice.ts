@@ -43,12 +43,14 @@ export const deletePost = createAsyncThunk<number, number>(
 interface IPostsState {
   posts: IPostsResponse[];
   loading: boolean;
+  loadingForCreatingPost: boolean;
   err: string | null;
 }
 
 const initialState = {
   posts: [],
   loading: false,
+  loadingForCreatingPost: false,
   err: null,
 } satisfies IPostsState as IPostsState;
 
@@ -73,17 +75,17 @@ const postsSlice = createSlice({
         state.err = "Ошибка загрузки постов";
       })
       .addCase(creatingPost.pending, (state) => {
-        state.loading = true;
+        state.loadingForCreatingPost = true;
       })
       .addCase(
         creatingPost.fulfilled,
         (state, action: PayloadAction<ICreatePostResponse>) => {
           state.posts.push(action.payload);
-          state.loading = false;
+          state.loadingForCreatingPost = false;
         }
       )
       .addCase(creatingPost.rejected, (state) => {
-        state.loading = false;
+        state.loadingForCreatingPost = false;
         state.err = "Ошибка создание поста";
       })
       .addCase(editPost.pending, (state) => {
