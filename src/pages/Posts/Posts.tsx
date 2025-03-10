@@ -8,28 +8,36 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeIcon from "@mui/icons-material/Mode";
-import { useAppDispatch, useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import {
   deletePost,
   editPost,
   fetchPosts,
-} from "../store/postsSlice/postsSlice";
-import Loading from "../components/Loading/Loading";
+} from "../../store/postsSlice/postsSlice";
+import Loading from "../../components/Loading/Loading";
+import FormCreateNewPost from "../../components/FormCreateNewPost/FormCreateNewPost";
+import ModalEditPost from "./shared/ModalEditPost/ModalEditPost";
 import {
   selectLoadingPosts,
   selectPostsData,
-} from "../store/selectors/postsSelectors";
-import FormCreateNewPost from "../components/FormCreateNewPost/FormCreateNewPost";
-import ModalEditPost from "../components/ModalEditPost/ModalEditPost";
+} from "../../store/postsSlice/selectors/postsSelectors";
+
+export interface IEditPost {
+  id: number | null;
+  title: string;
+  message: string;
+}
 
 const Posts = () => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector(selectPostsData);
   const loading = useAppSelector(selectLoadingPosts);
-  const { userId } = useParams();
-  const [editPostId, setEditPostId] = useState<number | null>(null);
-  const [editMessagePost, setEditMessagePost] = useState<string>("");
-  const [editTitlePost, setEditTitlePost] = useState<string>("");
+  const { userId } = useParams<string>();
+  const [editPostInputs, setEditPostInputs] = useState<IEditPost>({
+    id: null,
+    title: "",
+    message: "",
+  });
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -45,18 +53,21 @@ const Posts = () => {
     titlePost: string,
     messagePost: string
   ): void => {
-    setEditPostId(postId);
-    setEditTitlePost(titlePost);
-    setEditMessagePost(messagePost);
+    setEditPostInputs((prev) => ({
+      ...prev,
+      id: postId,
+      title: titlePost,
+      message: messagePost,
+    }));
     handelModalOpen();
   };
 
   const saveEditPost = (): void => {
     dispatch(
       editPost({
-        id: editPostId as number,
-        title: editTitlePost,
-        body: editMessagePost,
+        id: editPostInputs.id as number,
+        title: editPostInputs.title as string,
+        body: editPostInputs.message as string,
         userId: Number(userId),
       })
     );
@@ -77,7 +88,7 @@ const Posts = () => {
           width: "100%",
         }}
       >
-        {posts.map((post, index) => (
+        {posts?.map((post, index) => (
           <div key={post.id}>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
@@ -104,10 +115,8 @@ const Posts = () => {
         ))}
       </List>
       <ModalEditPost
-        editMessagePost={editMessagePost}
-        editTitlePost={editTitlePost}
-        setEditMessagePost={setEditMessagePost}
-        setEditTitlePost={setEditTitlePost}
+        editPostInputs={editPostInputs}
+        setEditPostInputs={setEditPostInputs}
         saveEditPost={saveEditPost}
         handelModalClose={handelModalClose}
         modalOpen={modalOpen}

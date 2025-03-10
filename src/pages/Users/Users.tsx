@@ -1,28 +1,22 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { NavigateFunction, useNavigate } from "react-router";
 import { DataGrid, GridRowParams } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { useAppDispatch, useAppSelector } from "../store/store";
-import { fetchUsers } from "../store/usersSlice/usersSlice";
-import Loading from "../components/Loading/Loading";
-import { getColumns } from "../helper/getColumns";
-import { getPaginationModel } from "../helper/getPaginationModel";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { fetchUsers } from "../../store/usersSlice/usersSlice";
+import Loading from "../../components/Loading/Loading";
+import { getColumns } from "../../helper/getColumns";
+import { getPaginationModel } from "../../helper/getPaginationModel";
 import {
   selectLoadingUsers,
   selectUsersData,
-} from "../store/selectors/usersSelectors";
-
-// interface IApiResponse<T> {
-//   data: T;
-//   status: number;
-//   message: string;
-// }
+} from "../../store/usersSlice/selectors/usersSelectors";
 
 const Users = () => {
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsersData);
   const loading = useAppSelector(selectLoadingUsers);
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   useEffect(() => {
     dispatch(fetchUsers());
