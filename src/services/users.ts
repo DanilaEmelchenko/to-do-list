@@ -8,3 +8,5 @@ export class User {
     return response.data;
   }
 }
+
+export type { IUserResponse };
