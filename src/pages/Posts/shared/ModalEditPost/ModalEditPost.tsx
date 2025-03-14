@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { Stack, TextField } from "@mui/material";
 import { FC } from "react";
-import { getStyleModal } from "../../../../helper/getStyleModal";
+import { getStyleModal } from "../helpers/getStyleModal";
 import { IEditPost } from "../../Posts";
 
 interface IModalEditPostProps {

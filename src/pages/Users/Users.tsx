@@ -5,12 +5,9 @@ import Paper from "@mui/material/Paper";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { fetchUsers } from "../../store/usersSlice/usersSlice";
 import Loading from "../../components/Loading/Loading";
-import { getColumns } from "../../helper/getColumns";
-import { getPaginationModel } from "../../helper/getPaginationModel";
-import {
-  selectLoadingUsers,
-  selectUsersData,
-} from "../../store/usersSlice/selectors/usersSelectors";
+import { getColumns } from "./shared/helpers/getColumns";
+import { getPaginationModel } from "./shared/helpers/getPaginationModel";
+import { selectLoadingUsers, selectUsersData } from "../../store";
 
 const Users = () => {
   const dispatch = useAppDispatch();
